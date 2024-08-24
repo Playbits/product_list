@@ -88,7 +88,7 @@ const Footer = () => (
     </div>
     <div className="bg-gray-100">
       <div className="mx-auto flex max-w-screen-xl flex-col gap-y-4 px-4 py-3 text-center text-gray-500 sm:flex-row sm:justify-between sm:text-left">
-        <div className="">© 2022 BelAir | All Rights Reserved</div>
+        <div className="">© 2024 Playbit | All Rights Reserved</div>
         <div className="">
           <a className="" href="#">
             Privacy Policy
