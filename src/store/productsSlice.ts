@@ -5,7 +5,7 @@ import { AppState } from ".";
 export const productSlice = createSlice({
     name: "products",
     initialState: {
-        products: [] as Products,
+        products: {} as Products,
         selected_product: {} as Product
     },
     reducers: {
