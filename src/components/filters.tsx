@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/store/hooks";
 import { products_state } from "@/store/productsSlice";
-import type { Product } from "@/types";
+import type { Filters, Product } from "@/types";
 import _ from "lodash";
 import {
   useCallback,
@@ -9,13 +9,6 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-
-interface Filters {
-  name: string;
-  brand: string;
-  category: string;
-  status: string;
-}
 
 const Filters = ({
   setProducts,
@@ -201,7 +194,6 @@ const Filters = ({
                     }
                   >
                     <option key={"no"} value="">
-                      {" "}
                       Change Status
                     </option>
                     {statuses.map((s, i) => (

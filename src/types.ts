@@ -13,3 +13,10 @@ export interface Products {
     limit: number
     products: Product[]
 }
+
+export interface Filters {
+    name: string;
+    brand: string;
+    category: string;
+    status: string;
+}
