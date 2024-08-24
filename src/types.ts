@@ -1,4 +1,10 @@
 export interface Product {
+    title: string;
+    brand: string;
+    category: string;
+    id: number;
+    price: number
+    availabilityStatus: string;
     [x: string]: any
 }
 export interface Products {

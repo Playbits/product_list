@@ -2,7 +2,13 @@ import { useAppSelector } from "@/store/hooks";
 import { products_state } from "@/store/productsSlice";
 import type { Product } from "@/types";
 import _ from "lodash";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
 interface Filters {
   name: string;
@@ -12,17 +18,12 @@ interface Filters {
 }
 
 const Filters = ({
-  products,
   setProducts,
 }: {
-  products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
 }) => {
   const _products = useAppSelector(products_state);
-  const resetFilters = () => {
-    setProducts(_products.products);
-  };
-  const [name, setName] = useState();
+
   const [filters, setFilters] = useState({} as Filters);
   const [categories, setCategories] = useState([""]);
   const [brands, setBrands] = useState([""]);
@@ -51,13 +52,36 @@ const Filters = ({
     setBrands(bra);
   }, [_products.products]);
 
+  const resetFilters = () => {
+    setFilters({} as Filters);
+    setProducts(_products.products);
+  };
+  const filter_product = useCallback(() => {
+    let p = _products.products;
+    const name = filters.name;
+    const brand = filters.brand;
+    const category = filters.category;
+    const status = filters.status;
+    if (name) {
+      p = p.filter((product) =>
+        product.title.toLowerCase().includes(name.toLowerCase())
+      );
+    }
+    if (brand) {
+      p = p.filter((product) => product.brand === brand);
+    }
+    if (category) {
+      p = p.filter((product) => product.category === category);
+    }
+    if (status) {
+      p = p.filter((product) => product.availabilityStatus === status);
+    }
+    setProducts(p);
+  }, [_products.products, filters, setProducts]);
+
   useEffect(() => {
-    const filter_product = () => {
-      console.log(products, filters);
-      // setProducts([] as Product[]);
-    };
     filter_product();
-  }, [filters, products, setProducts]);
+  }, [filter_product]);
   return (
     <div
       id="filters"
@@ -121,7 +145,9 @@ const Filters = ({
                       }))
                     }
                   >
-                    <option key={"no"}> Change Brand</option>
+                    <option key={"no"} value="">
+                      Change Brand
+                    </option>
                     {brands.map((b, i) => (
                       <option key={i} value={b}>
                         {b.toUpperCase()}
@@ -146,7 +172,10 @@ const Filters = ({
                       }))
                     }
                   >
-                    <option key={"no"}> Change Category</option>
+                    <option key={"no"} value="">
+                      {" "}
+                      Change Category
+                    </option>
                     {categories.map((c, i) => (
                       <option key={i} value={c}>
                         {c.toUpperCase()}
@@ -171,7 +200,10 @@ const Filters = ({
                       }))
                     }
                   >
-                    <option key={"no"}> Change Status</option>
+                    <option key={"no"} value="">
+                      {" "}
+                      Change Status
+                    </option>
                     {statuses.map((s, i) => (
                       <option key={i} value={s}>
                         {s.toUpperCase()}
